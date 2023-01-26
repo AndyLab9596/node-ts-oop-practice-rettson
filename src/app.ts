@@ -22,8 +22,8 @@ class App {
     }
 
     private initialiseMiddleware(): void {
-        this.express.use(helmet);
-        this.express.use(cors);
+        this.express.use(helmet());
+        this.express.use(cors());
         this.express.use(morgan('dev'));
         this.express.use(express.json());
         this.express.use(express.urlencoded({ extended: false }));
@@ -41,8 +41,9 @@ class App {
     }
 
     private initialiseDatabaseConnection(): void {
+        mongoose.set('strictQuery', false);
         const { MONGO_USER, MONGO_PASSWORD, MONGO_PATH } = process.env;
-        mongoose.connect(`mongodb-srv://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}`)
+        mongoose.connect(`mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}`);
     }
 
     public listen(): void {
